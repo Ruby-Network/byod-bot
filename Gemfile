@@ -9,6 +9,8 @@ gem "thor"
 gem "tty-prompt"
 gem "httparty"
 gem "discordrb"
+gem "dotenv"
+gem "readline"
 
 group :development do 
   gem "rerun"
