@@ -50,7 +50,15 @@ class ByodCLI < Thor
         f.write("DISCORD_TOKEN=#{token}\n")
       end
     end
+    if ENV['SERVER_IP'] == nil
+      prompt = TTY::Prompt.new
+      serverIP = prompt.ask("What is the IP the server you want people to point there domains to?", required: true)
+      File.open(".env", "a") do |f|
+        f.write("SERVER_IP=#{serverIP}\n")
+      end
+    end
     puts "Starting the bot...".yellow
+    system("bundle exec puma -e production &")
     system("bundle exec ruby main.rb")
   end
 end

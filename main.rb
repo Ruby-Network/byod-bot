@@ -1,7 +1,9 @@
 require 'discordrb'
 require 'colorize'
 require 'dotenv'
+require './utils.rb'
 
+initDB()
 Dotenv.load
 @token = ENV['DISCORD_TOKEN']
 @bot = Discordrb::Bot.new(token: @token, intents: [:server_members])
