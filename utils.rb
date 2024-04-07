@@ -49,3 +49,14 @@ def addDomain(domain, user)
   db = Sequel.connect('sqlite://byod.db')
   db[:domains].insert(domain: domain, user: user)
 end
+
+def deleteDomain(domain)
+  db = Sequel.connect('sqlite://byod.db')
+  db[:domains].where(domain: domain).delete
+end
+
+def findAllDomainsToUser(user)
+  db = Sequel.connect('sqlite://byod.db')
+  domains = db[:domains].where(user: user)
+  return domains
+end

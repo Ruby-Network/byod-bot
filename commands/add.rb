@@ -25,7 +25,7 @@ id = Random.rand(1..9999)
         event.send_message(content: "Domain already exists!", ephemeral: true)
       else
         addDomain(domain, event.user.id)
-        event.send_message(content: "Added #{domain} to the server!", ephemeral: true)
+        event.send_message(content: "Added `#{domain}` to the server!", ephemeral: true)
       end
     end
   end
