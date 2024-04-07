@@ -1,0 +1,16 @@
+version: '3'
+
+
+services:
+  byod-bot:
+    image: byod-bot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: byod-bot
+    restart: unless-stopped
+    environment:
+      REVERSE_PROXY: caddy
+      GUILD_ID: 123456789012345678
+      DISCORD_TOKEN: "YOUR_DISCORD_BOT_TOKEN"
+      SERVER_IP: "YOUR_SERVERS_IP"
