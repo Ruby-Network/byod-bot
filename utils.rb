@@ -26,7 +26,7 @@ end
 
 def defineDBVars()
   host = ENV['DB_HOST']
-  user = ENV['DB_USERNAME']
+  user = ENV['DB_USER']
   password = ENV['DB_PASSWORD']
   database = ENV['DB_DATABASE']
   return host, user, password, database
@@ -70,11 +70,22 @@ end
 
 def deleteDomain(domain)
   db = connectDB()
-  db[:domains].where(domain: domain).delete
+  begin
+    #string domain 
+    domain = domain.to_s
+    db[:domains].where(domain: domain).delete
+  rescue Sequel::DatabaseError
+    return 0
+  end
 end
 
 def findAllDomainsToUser(user)
   db = connectDB()
-  domains = db[:domains].where(user: user)
-  return domains
+  begin
+    user = user.to_s
+    domains = db[:domains].where(user: user)
+    return domains
+  rescue Sequel::DatabaseError
+    return 0
+  end
 end

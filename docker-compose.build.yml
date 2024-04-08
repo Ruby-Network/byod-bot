@@ -27,14 +27,14 @@ services:
       db:
         condition: service_healthy
     environment:
-      REVERSE_PROXY: caddy
-      GUILD_ID: 123456789012345678
-      DATABSE: "postgres"
+      REVERSE_PROXY: "caddy"
+      GUILD_ID: DISCORD_SERVER_ID
+      DATABASE: "postgres"
       DISCORD_TOKEN: "YOUR_DISCORD_BOT_TOKEN"
       SERVER_IP: "YOUR_SERVERS_IP"
-      DB_USER: "byod"
-      DB_PASS: "password"
-      DB_NAME: "byod"
       DB_HOST: "db"
       DB_PORT: "5432"
+      DB_USER: "byod"
+      DB_PASSWORD: "password"
+      DB_DATABASE: "byod"
 
