@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: byod-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U byod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: byod
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: byod
+    volumes:
+      - ./data:/var/lib/postgresql/data
+        #ports:
+        #- "5432:5432"
+  byod-bot:
+    image: ghcr.io/ruby-network/byod-bot:latest
+    container_name: byod-bot
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      REVERSE_PROXY: "caddy"
+      GUILD_ID: DISCORD_SERVER_ID
+      DATABASE: "postgres"
+      DISCORD_TOKEN: "YOUR_DISCORD_BOT_TOKEN"
+      SERVER_IP: "YOUR_SERVERS_IP"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USER: "byod"
+      DB_PASSWORD: "password"
+      DB_DATABASE: "byod"
