@@ -4,9 +4,11 @@
 
 </div>
 
+---
 ## Join our Discord server for support and updates!
 [![Ruby Network Discord](https://invidget.switchblade.xyz/bXJCZJZcJe?theme=dark)](https://discord.gg/bXJCZJZcJe)
 
+---
 ## Current supported reverse proxies:
 - [x] Caddy
 - [ ] Nginx
