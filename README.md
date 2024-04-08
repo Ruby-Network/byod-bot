@@ -10,7 +10,7 @@
 
 ---
 ## Current supported reverse proxies:
-- [x] Caddy
+- [x] Caddy - Setup guide [here](#caddy)
 - [ ] Nginx
 - [ ] Apache
 
@@ -60,3 +60,34 @@ There are two ways to install the bot, either by using Docker **RECOMMENDED** or
 1. Clone the repository.
 2. Run `bundle install` to install the required gems.
 3. Run `bundle exec ruby cli/cli.rb start` to start the bot. You will be prompted to enter the required environment variables.
+
+
+### Reverse Proxy setup 
+
+#### Caddy 
+
+- Caddy is the easiest reverse proxy to setup with the bot.
+
+1. Install Caddy by following the instructions [here](https://caddyserver.com/docs/install).
+2. Create a new file in the Caddyfile format.
+3. Add the following configuration to the file:
+```caddy
+{
+        on_demand_tls {
+                ask http://yourIPToTheBotServer:9292/domainCheck/
+                interval 2m
+                burst 5
+        }
+}
+
+https:// {
+        tls {
+                on_demand
+        }
+        reverse_proxy yourserversip:port
+}
+```
+
+4. Replace `yourIPToTheBotServer` with the IP address of the server running the bot.
+5. Replace `yourserversip:port` with the IP address and port of the server you want to reverse proxy to.
+
