@@ -20,7 +20,7 @@ class ByodCLI < Thor
     if ENV['REVERSE_PROXY'] == nil
       while true
         prompt = TTY::Prompt.new
-        reverseProxy = prompt.select("Which reverse proxy do you use?", %w(caddy nginx apache), required: true, default: "caddy")
+        reverseProxy = prompt.select("Which reverse proxy do you use?", %w(caddy), required: true, default: "caddy")
         reverseProxyConfirm = prompt.yes?("Is #{reverseProxy} the correct reverse proxy?")
         if reverseProxyConfirm == false
           next
