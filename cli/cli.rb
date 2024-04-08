@@ -8,6 +8,7 @@ Dotenv.load
 
 class ByodCLI < Thor 
   desc "start", "Start the bot"
+  option :sqlite, type: :boolean, default: false, desc: "Use SQLite instead of PostgreSQL"
   def start 
     if File.exist?(".env") == false
       File.open(".env", "w") do |f|
@@ -55,6 +56,38 @@ class ByodCLI < Thor
       serverIP = prompt.ask("What is the IP the server you want people to point there domains to?", required: true)
       File.open(".env", "a") do |f|
         f.write("SERVER_IP=#{serverIP}\n")
+      end
+    end
+    if options[:sqlite] == true
+      #delete any existing DATABSE key in the env 
+      if ENV['DATABASE'] != "sqlite"
+        #delete the key
+        File.open(".env", "r+") do |f|
+          f.each_line do |line|
+            if line.include?("DATABASE")
+              f.seek(-line.length, IO::SEEK_CUR)
+              f.write("#" + line)
+            end
+          end
+        end
+        File.open(".env", "a") do |f|
+          f.write("DATABASE=sqlite\n")
+        end
+      end
+    else 
+      if ENV['DATABASE'] != "postgres"
+        #delete the key
+        File.open(".env", "r+") do |f|
+          f.each_line do |line|
+            if line.include?("DATABASE")
+              f.seek(-line.length, IO::SEEK_CUR)
+              f.write("#" + line)
+            end
+          end
+        end
+        File.open(".env", "a") do |f|
+          f.write("DATABASE=postgres\n")
+        end
       end
     end
     puts "Starting the bot...".yellow

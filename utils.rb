@@ -24,8 +24,26 @@ def isPointedToServer(domain)
   end
 end 
 
+def defineDBVars()
+  host = ENV['DB_HOST']
+  user = ENV['DB_USERNAME']
+  password = ENV['DB_PASSWORD']
+  database = ENV['DB_DATABASE']
+  return host, user, password, database
+end
+
+def connectDB
+  if ENV['DATABASE'] == "sqlite"
+    db = Sequel.connect('sqlite://byod.db')
+  else
+    host, user, password, database = defineDBVars()
+    db = Sequel.postgres(host: host, user: user, password: password, database: database)
+  end
+  return db
+end
+
 def initDB 
-  db = Sequel.connect('sqlite://byod.db')
+  db = connectDB()
   if db.table_exists?(:domains) == false
     puts "Creating table as it does not exist".yellow
     db.create_table :domains do
@@ -37,7 +55,7 @@ def initDB
 end
 
 def doesDomainExist(domain)
-  db = Sequel.connect('sqlite://byod.db')
+  db = connectDB()
   if db[:domains].where(domain: domain).count > 0
     return true
   else
@@ -46,17 +64,17 @@ def doesDomainExist(domain)
 end
 
 def addDomain(domain, user)
-  db = Sequel.connect('sqlite://byod.db')
+  db = connectDB()
   db[:domains].insert(domain: domain, user: user)
 end
 
 def deleteDomain(domain)
-  db = Sequel.connect('sqlite://byod.db')
+  db = connectDB()
   db[:domains].where(domain: domain).delete
 end
 
 def findAllDomainsToUser(user)
-  db = Sequel.connect('sqlite://byod.db')
+  db = connectDB()
   domains = db[:domains].where(user: user)
   return domains
 end

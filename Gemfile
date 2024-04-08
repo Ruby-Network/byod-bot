@@ -15,6 +15,8 @@ gem "sinatra"
 gem "puma"
 gem "sequel"
 gem "sqlite3"
+gem "pg", :platforms => [:ruby, :truffleruby]
+gem "pg_jruby", :platform => :jruby
 
 group :development do 
   gem "rerun"
