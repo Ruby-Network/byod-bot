@@ -1,6 +1,6 @@
 <div align="center">
          
-<img src="https://socialify.git.ci/ruby-network/byod-bot/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark" alt="corlink" width="640" height="320" />
+<img src="https://socialify.git.ci/ruby-network/byod-bot/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark" alt="byod-bot" width="640" height="320" />
 
 </div>
 
