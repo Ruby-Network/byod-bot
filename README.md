@@ -39,6 +39,15 @@ There are two ways to install the bot, either by using Docker **RECOMMENDED** or
 
 #### Manual Installation
 
+> [!NOTE]
+> When setting up manually, you can use sqlite3 instead of PostgreSQL.
+> 
+> To use sqlite, just pass the `--sqlite` flag to the `bundle exec ruby cli/cli.rb start` command.
+>
+> Example: `bundle exec ruby cli/cli.rb start --sqlite`
+>
+> This is ***not recommended*** for production use.
+
 1. Clone the repository.
 2. Run `bundle install` to install the required gems.
 3. Run `bundle exec ruby cli/cli.rb start` to start the bot. You will be prompted to enter the required environment variables.
