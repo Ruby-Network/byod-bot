@@ -41,5 +41,4 @@ There are two ways to install the bot, either by using Docker **RECOMMENDED** or
 
 1. Clone the repository.
 2. Run `bundle install` to install the required gems.
-3. Create a `.env` file and fill in the required environment variables.
-4. Run `bundle exec ruby cli/cli.rb start` to start the bot (the DB will auto initialize).
+3. Run `bundle exec ruby cli/cli.rb start` to start the bot. You will be prompted to enter the required environment variables.
