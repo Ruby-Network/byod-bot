@@ -42,6 +42,10 @@ def connectDB
   return db
 end
 
+def closeDB(db) 
+  db.disconnect
+end
+
 def initDB 
   db = connectDB()
   if db.table_exists?(:domains) == false
@@ -57,8 +61,10 @@ end
 def doesDomainExist(domain)
   db = connectDB()
   if db[:domains].where(domain: domain).count > 0
+    closeDB(db)
     return true
   else
+    closeDB(db)
     return false
   end
 end
@@ -66,6 +72,7 @@ end
 def addDomain(domain, user)
   db = connectDB()
   db[:domains].insert(domain: domain, user: user)
+  closeDB(db)
 end
 
 def deleteDomain(domain)
@@ -74,7 +81,9 @@ def deleteDomain(domain)
     #string domain 
     domain = domain.to_s
     db[:domains].where(domain: domain).delete
+    closeDB(db)
   rescue Sequel::DatabaseError
+    closeDB(db)
     return 0
   end
 end
@@ -84,8 +93,10 @@ def findAllDomainsToUser(user)
   begin
     user = user.to_s
     domains = db[:domains].where(user: user)
+    closeDB(db)
     return domains
   rescue Sequel::DatabaseError
+    closeDB(db)
     return 0
   end
 end
