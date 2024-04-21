@@ -90,4 +90,26 @@ https:// {
 
 4. Replace `yourIPToTheBotServer` with the IP address of the server running the bot.
 5. Replace `yourserversip:port` with the IP address and port of the server you want to reverse proxy to.
+---
 
+#### NGINX 
+
+- NGINX is *slightly* more involved to setup with the bot.
+- One caveat is that you will need to use [openresty](https://openresty.org/en/) over standard NGINX.
+
+1. Install openresty by following the instructions [here](https://openresty.org/en/installation.html).
+```bash
+sudo apt update && sudo apt install -y openresty
+```
+
+2. Disable NGINX if it is already running.
+```bash
+sudo systemctl stop nginx
+```
+
+3. Create a new file in the NGINX configuration directory.
+```bash
+sudo nano /etc/nginx/conf.d/byod.conf
+```
+
+4. Add the following configuration to the file:
