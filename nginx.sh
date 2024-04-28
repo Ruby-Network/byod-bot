@@ -49,6 +49,10 @@ sudo apt -y install openresty
 echo "Installing extra needed modules..."
 opm install fffonion/lua-resty-acme
 
+echo "generating fallback certificates"
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key 
+openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -x509 -days 365 -out /etc/openresty/default.pem
+
 echo "Done!"
 echo ""
-echo "To finish the setup, please follow the guide: https://github.com/ruby-network/byod-bot#nginx"
+echo "To finish the setup, please follow the guide: https://github.com/ruby-network/byod-bot#nginx (skip steps 1 - 3)"

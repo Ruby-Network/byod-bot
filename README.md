@@ -98,18 +98,109 @@ https:// {
 - One caveat is that you will need to use [openresty](https://openresty.org/en/) over standard NGINX.
 
 1. Install openresty by following the instructions [here](https://openresty.org/en/installation.html).
+  - Or, if you are using Ubuntu 22.04 LTS, you can use our bash script to install openresty (and other dependencies):
+  ```bash
+    curl -s https://raw.githubusercontent.com/ruby-network/byod-bot/main/scripts/nginx.sh | bash
+    ```
+  - Using the script will allow you to skip step 1 through 3.
+
+2. If you were previously using NGINX, you will need to disable it:
 ```bash
-sudo apt update && sudo apt install -y openresty
+sudo systemctl stop nginx 
+sudo systemctl disable nginx
 ```
 
-2. Disable NGINX if it is already running.
+3. Then you need to generate some fallback certificates:
 ```bash
-sudo systemctl stop nginx
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key 
+```
+```bash
+openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -x509 -days 365 -out /etc/openresty/default.pem
+```
+or as one command:
+```bash
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key && openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -x509 -days 365 -out /etc/openresty/default.pem 
 ```
 
-3. Create a new file in the NGINX configuration directory.
+4. If you have a complicated nginx config, you should back it up:
 ```bash
-sudo nano /etc/nginx/conf.d/byod.conf
+sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+```
+and then move it to the openresty directory:
+```bash
+sudo mv /etc/nginx/nginx.conf /etc/openresty/nginx.conf #(or /usr/local/openresty/nginx.conf)
 ```
 
-4. Add the following configuration to the file:
+5. Then, in which ever way you configure your sites, add what you need from the following example:
+```nginx
+resolver 8.8.8.8 ipv6=off;
+lua_shared_dict acme 16m;
+lua_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+lua_ssl_verify_depth 2;
+init_by_lua_block {
+        require("resty.acme.autossl").init({
+            tos_accepted = true,
+            account_key_path = "/etc/openresty/account.key",
+            account_email = "youremail@yourdomain.com",
+            domain_whitelist = nil,
+            blocking = true,
+            staging = true,
+        })
+    }
+
+init_worker_by_lua_block {
+        require("resty.acme.autossl").init_worker()
+}
+
+server {
+    #listen 80 default_server;
+    #listen [::]:80 default_server;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name yourmainserver.com;
+    ssl_certificate /etc/openresty/default.pem;
+    ssl_certificate_key /etc/openresty/default.key;
+    ssl_certificate_by_lua_block {
+            require("resty.acme.autossl").ssl_certificate()
+    }
+    location / {
+        access_by_lua_block {
+                local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
+                if res.status ~= 200 then
+                        ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
+                        return ngx.exit(ngx.HTTP_FORBIDDEN)
+                end
+        }
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'Upgrade';
+        proxy_connect_timeout 10;
+        proxy_send_timeout 90;
+        proxy_read_timeout 90;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+        proxy_temp_file_write_size 256k;
+        proxy_pass http://localhost:9292;  # Adjust the URL if needed
+    }
+    location /.well-known {
+                 access_by_lua_block {
+                local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
+                if res.status ~= 200 then
+                        ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
+                        return ngx.exit(ngx.HTTP_FORBIDDEN)
+                end
+        }
+    content_by_lua_block {
+        require("resty.acme.autossl").serve_http_challenge()
+        }
+    }
+    location /domainCheck {
+        internal;
+        proxy_pass http://localhost:9292/domainCheck;  # Adjust the URL if needed
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
