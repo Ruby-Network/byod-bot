@@ -50,8 +50,8 @@ echo "Installing extra needed modules..."
 opm install fffonion/lua-resty-acme
 
 echo "generating fallback certificates"
-openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key 
-openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -x509 -days 365 -out /etc/openresty/default.pem
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key
+openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -x509 -days 365 -out /etc/openresty/default.pem -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com"
 
 echo "Done!"
 echo ""
