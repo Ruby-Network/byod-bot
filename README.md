@@ -102,6 +102,7 @@ https:// {
   ```bash
     curl -s https://raw.githubusercontent.com/ruby-network/byod-bot/main/scripts/nginx.sh | bash
     ```
+
   - Using the script will allow you to skip step 1 through 3.
 
 1a. Also install [OPM](https://opm.openresty.org/) if your distribution does not have it.
