@@ -10,8 +10,10 @@
 
 ---
 ## Current supported reverse proxies:
-- [x] Caddy - Setup guide [here](#caddy)
-- [x] Nginx
+- [x] Caddy 
+  - [x] On Demand TLS - [Guide](#caddy)
+  - [ ] API
+- [x] Nginx - [Guide](#nginx)
 - [ ] Apache
 
 ## Description
