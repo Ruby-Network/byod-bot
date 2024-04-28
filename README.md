@@ -104,6 +104,8 @@ https:// {
     ```
   - Using the script will allow you to skip step 1 through 3.
 
+1a. Also install [OPM](https://opm.openresty.org/) if your distribution does not have it.
+
 2. If you were previously using NGINX, you will need to disable it:
 ```bash
 sudo systemctl stop nginx 
