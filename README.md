@@ -17,7 +17,7 @@
 - [ ] Apache
 
 ## Description
-A discord bot allowing anyone to implement BYOD (bring your own domain) into their service.
+A discord bot allowing anyone to implement BYOD (bring your own domain) into their service (semi) easily.
 
 ## Setup
 
