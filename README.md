@@ -167,11 +167,11 @@ server {
     }
     location / {
         access_by_lua_block {
-                local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
-                if res.status ~= 200 then
-                        ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
-                        return ngx.exit(ngx.HTTP_FORBIDDEN)
-                end
+            local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
+            if res.status ~= 200 then
+                ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
+                return ngx.exit(ngx.HTTP_FORBIDDEN)
+            end
         }
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'Upgrade';
@@ -185,15 +185,15 @@ server {
         proxy_pass http://localhost:9292;  # Adjust the URL if needed
     }
     location /.well-known {
-                 access_by_lua_block {
-                local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
-                if res.status ~= 200 then
-                        ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
-                        return ngx.exit(ngx.HTTP_FORBIDDEN)
-                end
+        access_by_lua_block {
+            local res = ngx.location.capture("/domainCheck/?domain=" .. ngx.escape_uri(ngx.var.host))
+            if res.status ~= 200 then
+                ngx.log(ngx.WARN, "Domain not allowed: ", ngx.var.host)
+                return ngx.exit(ngx.HTTP_FORBIDDEN)
+            end
         }
-    content_by_lua_block {
-        require("resty.acme.autossl").serve_http_challenge()
+        content_by_lua_block {
+            require("resty.acme.autossl").serve_http_challenge()
         }
     }
     location /domainCheck {
