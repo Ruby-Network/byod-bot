@@ -207,4 +207,4 @@ server {
 }
 ```
 
-6. Voila! You should now have a working NGINX reverse proxy with the bot. Feel free to ask for help in the [Discord Server](#join-our-discord-server-for-support-and-updates).
+6. Voila! You should now have a working NGINX reverse proxy with the bot. Feel free to ask for help in the [Discord Server](#join-our-discord-server-for-help-support-and-updates).
