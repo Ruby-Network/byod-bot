@@ -26,6 +26,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    #if you are using a reverse proxy NOT under docker, you may have to uncomment this
+    #ports:
+    #  - "9292:9292"
     environment:
       REVERSE_PROXY: "caddy"
       GUILD_ID: DISCORD_SERVER_ID
