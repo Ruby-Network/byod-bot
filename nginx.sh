@@ -53,7 +53,7 @@ echo "generating fallback certificates"
 sudo openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out /etc/openresty/account.key
 sudo
 # Default stupid empty values"
-sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -subj "/C=US/ST=CA/L=San Francisco/O=EA/OU=IT Department/CN=poggers.com" -x509 -days 365 -out /etc/openresty/default.pem -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:poggers.com"))
+sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/openresty/default.key -subj "/C=US/ST=CA/L=San Francisco/O=EA/OU=IT Department/CN=poggers.com" -x509 -days 365 -out /etc/openresty/default.pem
 
 echo "Done!"
 echo ""
