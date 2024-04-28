@@ -1,11 +1,21 @@
 #/bin/bash
 
 
+# Detect if you are using ubuntu; if not, this script will not work for you. 
+
+if [ "$(cat /etc/os-release | grep -w ID | cut -d '=' -f 2)" != "ubuntu" ]; then
+    echo "This script is only for Ubuntu"
+    echo "To follow the tutorial please visit the manual install at: https://github.com/ruby-network/byod-bot#nginx"
+    exit 1
+fi 
+
+sudo apt update && sudo apt install lsb-release -y
+
 # Detect if you are running ubuntu 22, if your not running ubuntu codename "jammy jellyfish" this script will not work for you.
 
 if [ "$(lsb_release -c -s)" != "jammy" ]; then
     echo "This script is only for Ubuntu 22: jammy jellyfish"
-    echo "You are running: $(lsb_release -c -s)\n"
+    echo "You are running: $(lsb_release -c -s)"
     echo "To follow the tutorial please visit the manual install at:  https://github.com/ruby-network/byod-bot#nginx"
     exit 1
 fi
@@ -39,6 +49,6 @@ sudo apt -y install openresty
 echo "Installing extra needed modules..."
 opm install fffonion/lua-resty-acme
 
-echo "Done!\n"
-echo "\n"
+echo "Done!"
+echo ""
 echo "To finish the setup, please follow the guide: https://github.com/ruby-network/byod-bot#nginx"
