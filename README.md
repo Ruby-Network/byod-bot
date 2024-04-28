@@ -5,13 +5,13 @@
 </div>
 
 ---
-## Join our Discord server for support and updates!
+## Join our Discord server for help, support, and updates
 [![Ruby Network Discord](https://invidget.switchblade.xyz/bXJCZJZcJe?theme=dark)](https://discord.gg/bXJCZJZcJe)
 
 ---
 ## Current supported reverse proxies:
 - [x] Caddy - Setup guide [here](#caddy)
-- [ ] Nginx
+- [x] Nginx
 - [ ] Apache
 
 ## Description
@@ -206,3 +206,5 @@ server {
     }
 }
 ```
+
+6. Voila! You should now have a working NGINX reverse proxy with the bot. Feel free to ask for help in the [Discord Server](#join-our-discord-server-for-support-and-updates).
