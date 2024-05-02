@@ -13,7 +13,9 @@
 - [x] Caddy 
   - [x] On Demand TLS - [Guide](#caddy)
   - [ ] API
-- [x] Nginx - [Guide](#nginx)
+- [x] Nginx 
+    - [Guide](#nginx)
+    - Want to learn more about How I did it? [Click here](https://motortruck1221.com/blog/nginx-byod)
 - [ ] Apache
 
 ## Description
