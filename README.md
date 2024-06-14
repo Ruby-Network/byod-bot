@@ -6,17 +6,15 @@
 
 ---
 ## Join our Discord server for help, support, and updates
-[![Ruby Network Discord](https://invidget.switchblade.xyz/bXJCZJZcJe?theme=dark)](https://discord.gg/bXJCZJZcJe)
+[![Ruby Network Discord](https://invidget.switchblade.xyz/bWgw8469VS?theme=dark)](https://discord.gg/bWgw8469VS)
 
 ---
 ## Current supported reverse proxies:
 - [x] Caddy 
   - [x] On Demand TLS - [Guide](#caddy)
-  - [ ] API
 - [x] Nginx 
     - [Guide](#nginx)
     - Want to learn more about How I did it? [Click here](https://motortruck1221.com/blog/nginx-byod)
-- [ ] Apache
 
 ## Description
 A discord bot allowing anyone to implement BYOD (bring your own domain) into their service (semi) easily.
